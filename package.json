@@ -1,0 +1,35 @@
+{
+  "name": "mobility",
+  "version": "1.0.0",
+  "description": "This repo is for backend and front end of the application",
+  "main": "app.js",
+  "scripts": {
+    "start": "set NODE_ENV=dev && node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhay321/mobility.git"
+  },
+  "author": "Abhay",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "joi": "^17.3.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-plugin-node": "^11.1.0",
+    "loadtest": "*",
+    "nodemon": "^2.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/abhay321/mobility/issues"
+  },
+  "homepage": "https://github.com/abhay321/mobility#readme"
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Title</title>
+    <style>
+      .data-img {
+        width: 100%;
+      }
+      .img-container {
+        padding: 20px;
+        /* background:#f9f9f9; */
+        /* height:100%; */
+      }
+      .loader {
+        text-align: center;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row" id="results"></div>
+      <div class="loader">
+        <img src="https://d1yooda1d0qdx0.cloudfront.net/loading-buffering.gif" />
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var total_record = 0;
+        $.ajax({
+          url: "https://api.bbcd.in/api/products?limitRec=10",
+          type: "get",
+          data: {},
+          success: function (data) {
+            var dataObj = data.data;
+            if ((dataObj.status = true)) {
+              Object.keys(dataObj.rows).forEach(function (key) {
+                var data = dataObj.rows[key];
+                $("#results").append(
+                  `<div class="col-12 col-sm-6 col-md-4 col-lg-4 img-container"><img class="data-img" src='${data.url}'></div>`
+                );
+              });
+            }
+          },
+          error: function (data) {},
+        });
+        var scrollCount = 0;
+        var counter = 10;
+        var limit = 0;
+
+        $(window).scroll(function () {
+          if (
+            window.innerHeight + window.scrollY >=
+            document.body.scrollHeight - 1
+          ) {
+            scrollCount += 1;
+            console.log(scrollCount);
+            if (counter <= limit || limit == 0) {
+              $.ajax({ 
+                url:
+                  "https://api.bbcd.in/api/products?limitRec=10&skipRec=" +
+                  counter +
+                  "",
+                type: "get",
+                data: {},
+                beforeSend: function () {
+                  $(".loader").css("display", "block");
+                  counter += 10;
+                },
+                success: function (data) {
+                  limitScroll = 0;
+                  var dataObj = data.data;
+                  limit = dataObj.count;
+                  if ((dataObj.status = true && counter <= dataObj.count)) {
+                    Object.keys(dataObj.rows).forEach(function (key) {
+                      var data = dataObj.rows[key];
+                      var img2 = new Image();
+                      img2.src = data.url;
+                      console.log(img2.src);
+                      img2.onload = function () {
+                        $("#results").append(
+                          `<div class="col-12 col-sm-6 col-md-4 col-lg-4 img-container"><img class="data-img" src='${img2.src}'></div>`
+                        );
+                        $(".loader").css("display", "none");
+                      };
+                    });
+                  } else {
+                    $(".loader").css("display", "none");
+                  }
+                },
+                error: function (data) {},
+              });
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
