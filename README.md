@@ -1,7 +1,7 @@
 # mobility
 :-  take git pull
 
-:- edit test.env to confid.env and change db credentials and set NODE_ENV ="dev"
+:- edit test.env to config.env and change db credentials and set NODE_ENV ="dev"
 :- go to root directory run npm install and npm start
 
 Api Demo Application
